@@ -26,33 +26,67 @@ class _AdminSKUState extends State<AdminSKU> {
     return selectedCategory != null ? subCategoryMap[selectedCategory!] ?? [] : [];
   }
 
-  void GenerateSku(){
-    sku++;
+  // void GenerateSku(){
+  //   sku++;
+  //   setState(() {
+  //     _SKUController.text = sku.toString();
+  //   });
+  // }
+  void AddItem() async {
+    String name = _ItemNameController.text.trim();
+    String brand = _BrandController.text.trim();
+
+    if (name.isEmpty || brand.isEmpty || selectedCategory == null || selectedSubCategory == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please fill all fields")));
+      return;
+    }
+
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentReference counterRef = firestore.collection('counters').doc('sku_counter');
+
+    await firestore.runTransaction((transaction) async {
+      DocumentSnapshot counterSnapshot = await transaction.get(counterRef);
+
+      int newSku;
+      if (!counterSnapshot.exists) {
+        // Initialize the counter if it doesn't exist
+        transaction.set(counterRef, {'latest': 110});
+        newSku = 110;
+      } else {
+        int latestSku = counterSnapshot.get('latest');
+        newSku = latestSku + 1;
+        transaction.update(counterRef, {'latest': newSku});
+      }
+
+      // Add the new product with the generated SKU
+      transaction.set(firestore.collection('SKU').doc(), {
+        'item': name,
+        'SKU': newSku.toString(),
+        'category': selectedCategory,
+        'subcategory': selectedSubCategory,
+        'brand': brand,
+        'active': true,
+        'stock': 0,
+        'threshold': 0,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+
+      // Update the SKU controller text
+      _SKUController.text = newSku.toString();
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Added item: ${_SKUController.text}")));
+
+    // Clear input fields
+    _ItemNameController.clear();
+    _SKUController.clear();
+    _BrandController.clear();
     setState(() {
-      _SKUController.text = sku.toString();
+      selectedCategory = null;
+      selectedSubCategory = null;
     });
   }
-  void AddItem() async{
-    String name = _ItemNameController.text;
-    String SKU = _SKUController.text;
-    String brand = _BrandController.text;
-    if (name.isNotEmpty && SKU.isNotEmpty && brand.isNotEmpty && selectedCategory != null && selectedSubCategory != null){
-      DocumentReference docRef = await FirebaseFirestore.instance.collection('SKU').add(
-        {'item':name,'SKU':SKU,'category':selectedCategory,'subcategory':selectedSubCategory,'brand':brand
-          ,'active':true,'stock':0,'treshold':0,'timestamp':FieldValue.serverTimestamp()}
-      );
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Added item : $SKU")));
-      _ItemNameController.clear();
-      _SKUController.clear();
-      _BrandController.clear();
-      setState(() {
-        selectedCategory = null;
-        selectedSubCategory = null;
-      });
-    }
-    else
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed, Please fill all fields")));
-  }
+
   
   void Deactivate(String docId) async{
     final docRef = FirebaseFirestore.instance.collection('SKU').doc(docId);
@@ -187,7 +221,7 @@ class _AdminSKUState extends State<AdminSKU> {
             TextField(decoration: InputDecoration(labelText: "item name"),controller: _ItemNameController,),
             Row(children: [
               Expanded(child: TextField(decoration: InputDecoration(labelText: "SKU Code"),controller: _SKUController,)),
-              Expanded(child: ElevatedButton(onPressed: ()=>GenerateSku(),child: Text("Generate"),))
+              // Expanded(child: ElevatedButton(onPressed: ()=>GenerateSku(),child: Text("Generate"),))
             ],),
             DropdownButtonFormField<String>(
               decoration: InputDecoration(labelText: "category"),
