@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "390829560069",
+    "project_id": "erpassignment-43ebc",
+    "storage_bucket": "erpassignment-43ebc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390829560069:android:183971bec0e20812baa76c",
+        "android_client_info": {
+          "package_name": "com.example.erpassignment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuL06MGWw05O5Zcp55w9CK9Fvydjo3Pgg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
