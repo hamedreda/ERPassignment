@@ -70,7 +70,8 @@ class _LoginPageState extends State<LoginPage> {
                     )
                 ),
               ),
-              ElevatedButton(onPressed: ()=>_login(_UsernameController.text,_PasswordController.text), child: Text("Login"))
+              ElevatedButton(onPressed: ()=>_login(_UsernameController.text,_PasswordController.text), child: Text("Login")),
+              Padding(padding: EdgeInsets.all(100),child: Image.asset('assets/parcel-box-package-icon.png',),),
             ],
           ),
         )

@@ -11,50 +11,56 @@ class AdminPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(),
-        body: GridView.count(
-          crossAxisCount: 2,
+        body: Stack(
           children: [
-            InkWell(
-              onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminStock())),
-              child: Card(
-                elevation: 4,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text("Stock"),
+            // Padding(padding: EdgeInsets.all(0),child: Image.asset('assets/flower-8625039.png',),),
+            GridView.count(
+              crossAxisCount: 2,
+              children: [
+                InkWell(
+                  onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminStock())),
+                  child: Card(
+                    elevation: 4,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text("Stock"),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Container(),
-            InkWell(
-              onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminSKU())),
-              child: Card(
-                elevation: 4,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text("manage\nitems"),
+                InkWell(
+                  onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminSKU())),
+                  child: Card(
+                    elevation: 4,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text("manage items"),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            InkWell(
-              onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminBranches())),
-              child: Card(
-                elevation: 4,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text("manage\nbranches",),
+                InkWell(
+                  onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminBranches())),
+                  child: Card(
+                    elevation: 4,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text("manage branches",),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            InkWell(
-              onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminDamage())),
-              child: Card(
-                elevation: 4,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text("Damages/Returns"),
+                InkWell(
+                  onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminDamage())),
+                  child: Card(
+                    elevation: 4,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text("Damages/Returns"),
+                    ),
+                  ),
                 ),
-              ),
-            ),
+
+
+              ],
+            )
           ],
         )
     );

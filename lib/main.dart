@@ -2,6 +2,8 @@ import 'AdminPage.dart';
 import 'package:flutter/material.dart';
 import 'LoginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFFFDE3F)),
         useMaterial3: true,
+        textTheme: GoogleFonts.aboretoTextTheme(Theme.of(context).textTheme)
       ),
       home: LoginPage(),
     );
